@@ -9,7 +9,7 @@ switch ($action){
   case "on":
   case "off":
     $cmd = "tdtool --$action $id";
-    shell_exec($cmd);
+    exec($cmd);
     error_log($cmd." executed");
     break;
   case "listDevices":
@@ -20,7 +20,7 @@ switch ($action){
   case "allOff":
     $alldevs = getAllDevices();
     foreach($alldevs as $dev){
-      shell_exec("tdtool --off ".$dev["id"]);
+      exec("tdtool --off ".$dev["id"]);
     }
     break;
 
