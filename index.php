@@ -36,14 +36,14 @@
 
     <div class="container">
         <div class="starter-template">
-            <div ng-app = "lightsApp" ng-controller="DeviceListCtrl">
+            <div ng-app = "lightsApp" ng-controller="DeviceListCtrl" data-ng-init="loadData()">
 
               <table ng-table="devicesTable" class="table table-striped">
                 <thead>
                   <tr>
                     <th class="ng-hide">ID</th>
                     <th>Name</th>
-                    <th class="ng-hide">Last CMD</th>
+                    <th>Last CMD</th>
                     <th colspan="2" class="center">Commands</th>
                   </tr>
                 </thead>
@@ -51,7 +51,7 @@
                   <tr ng-repeat="x in devices">
                     <td class="ng-hide">{{x.id}}</td>
                     <td>{{x.name}}</td>
-                    <td class="ng-hide">{{x.lastcommand}}</td>
+                    <td>{{x.lastcommand}}</td>
                     <td><button class="btn btn-success" ng-click="tdaction(x.id,'on')">ON</button></td>
                     <td><button class="btn btn-danger" ng-click="tdaction(x.id,'off')">OFF</button></td>
                   </tr>
@@ -59,7 +59,7 @@
              </table>
            <!-- todo: turn off all button -->
         <button type="button" class="btn btn-primary btn-danger" ng-click="allOff()">All OFF</button>
-
+   {{status}}
         </div>
       </div>
     </div>
