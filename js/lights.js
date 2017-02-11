@@ -1,4 +1,4 @@
-var lightsApp = angular.module('lightsApp', ['ui.bootstrap']);   
+var lightsApp = angular.module('lightsApp', ['ui.bootstrap','angular-loading-bar']);
 
 lightsApp.controller('DeviceListCtrl', function ($scope, $http) {
  $scope.loadData = function(){
@@ -11,7 +11,7 @@ lightsApp.controller('DeviceListCtrl', function ($scope, $http) {
  };
 
  $scope.tdaction = function(id,action) {
-   //$scope.status = "Turning "+action+" ";
+   $scope.status = "Turning "+action+" Reloading Data" ;
    //console.log(id + " "+ action);
    $http.get("tdaction.php?id="+id+"&action="+action);
    $scope.loadData();
@@ -20,12 +20,9 @@ lightsApp.controller('DeviceListCtrl', function ($scope, $http) {
  
  $scope.allOff = function(){
    $http.get("tdaction.php?action=allOff");
-   loadData();
+   $scope.loadData();
  };
  $scope.orderProp = 'id';
 
 });
 
-/*
-/usr/nasShare/Backups/elitester/NetBeansProjects/RemedyTools/web$
-*/

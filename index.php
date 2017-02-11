@@ -7,8 +7,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="style/loading-bar.min.css">
     <link rel="stylesheet" href="style/lights.css">
     <script src="js/ui-bootstrap-tpls-2.5.0.min.js"></script>
+    <script src="js/loading-bar.min.js"></script>
     <script src="js/lights.js"></script>
     <title>lights</title>
 </head>
@@ -59,7 +61,8 @@
              </table>
            <!-- todo: turn off all button -->
         <button type="button" class="btn btn-primary btn-danger" ng-click="allOff()">All OFF</button>
-   {{status}}
+        <br>
+        {{status}}
         </div>
       </div>
     </div>
