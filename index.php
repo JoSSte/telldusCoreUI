@@ -78,10 +78,10 @@
                         </thead>
                         <tbody>
                             <tr data-ng-repeat="sensor in sensors">
-                                <td class="ng-hide">{{sensor.id}}</td>
-                                <td>{{sensor.type}}</td>
-                                <td>{{sensor.temperature}}</td>
-                                <td>{{sensor.humidity}}</td>
+                                <td>{{sensor.id}}</td>
+                                <td class="ng-hide">{{sensor.type}}</td>
+                                <td>{{sensor.temperature}}&deg;</td>
+                                <td>{{sensor.humidity}}&percnt;</td>
                                 <td>{{sensor.time}}</td>
                                 <td>{{sensor.age}}</td>
                             </tr>
