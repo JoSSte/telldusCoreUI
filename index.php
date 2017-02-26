@@ -80,8 +80,8 @@
                             <tr data-ng-repeat="sensor in sensors">
                                 <td>{{sensor.id}}</td>
                                 <td class="ng-hide">{{sensor.type}}</td>
-                                <td>{{sensor.temperature}}&deg;</td>
-                                <td>{{sensor.humidity}}&percnt;</td>
+                                <td>{{sensor.temperature | degree}}</td>
+                                <td>{{sensor.humidity | percentage}}</td>
                                 <td>{{sensor.time}}</td>
                                 <td>{{sensor.age}}</td>
                             </tr>

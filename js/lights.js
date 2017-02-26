@@ -29,4 +29,14 @@ lightsApp.controller('DeviceListCtrl', function ($scope, $http) {
  $scope.orderProp = 'id';
 
 });
+lightsApp.filter('percentage', ['$filter', function ($filter) {
+  return function (input) {
+    return input + '%';
+  };
+}]);
+lightsApp.filter('degree', ['$filter', function ($filter) {
+  return function (input) {
+    return input + '&deg;';
+  };
+}]);
 
