@@ -14,7 +14,7 @@
         <script src="js/lights.js"></script>
         <title>lights</title>
     </head>
-    <body>
+    <body data-ng-app = "lightsApp">
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -38,9 +38,9 @@
 
         <div class="container">
             <div class="starter-template">
-                <div ng-app = "lightsApp" ng-controller="DeviceListCtrl" data-ng-init="loadData()">
+                <div data-ng-controller="DeviceListCtrl" data-ng-init="loadData()">
 
-                    <table ng-table="devicesTable" class="table table-striped">
+                    <table data-ng-table="devicesTable" class="table table-striped">
                         <thead>
                             <tr>
                                 <th class="ng-hide">ID</th>
@@ -50,17 +50,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="x in devices">
+                            <tr data-ng-repeat="x in devices">
                                 <td class="ng-hide">{{x.id}}</td>
                                 <td>{{x.name}}</td>
                                 <td>{{x.lastcommand}}</td>
-                                <td><button class="btn btn-success" ng-click="tdaction(x.id,'on')">ON</button></td>
-                                <td><button class="btn btn-danger" ng-click="tdaction(x.id,'off')">OFF</button></td>
+                                <td><button class="btn btn-success" data-ng-click="tdaction(x.id,'on')">ON</button></td>
+                                <td><button class="btn btn-danger" data-ng-click="tdaction(x.id,'off')">OFF</button></td>
                             </tr>
                         </tbody>
                     </table>
                     <!-- todo: turn off all button -->
-                    <button type="button" class="btn btn-primary btn-danger" ng-click="allOff()">All OFF</button>
+                    <button type="button" class="btn btn-primary btn-danger" data-ng-click="allOff()">All OFF</button>
                     <br>
                     {{status}}
                 </div>
