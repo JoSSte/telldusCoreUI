@@ -14,7 +14,7 @@
         <script src="js/lights.js"></script>
         <title>lights</title>
     </head>
-    <body data-ng-app = "lightsApp">
+    <body data-ng-app = "lightsApp" data-ng-controller="DeviceListCtrl" data-ng-init="loadData()">
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -38,8 +38,7 @@
 
         <div class="container">
             <div class="starter-template">
-                <div data-ng-controller="DeviceListCtrl" data-ng-init="loadData()">
-
+                <div>
                     <table data-ng-table="devicesTable" class="table table-striped">
                         <thead>
                             <tr>
@@ -63,6 +62,31 @@
                     <button type="button" class="btn btn-primary btn-danger" data-ng-click="allOff()">All OFF</button>
                     <br>
                     {{status}}
+                </div>
+                <div>
+
+                    <table data-ng-table="sensorsTable" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="ng-hide">ID</th>
+                                <th>Type</th>
+                                <th>Temperature</th>
+                                <th>Humidity</th>
+                                <th>Time</th>
+                                <th>Age</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="sensor in sensors">
+                                <td class="ng-hide">{{sensor.id}}</td>
+                                <td>{{sensor.type}}</td>
+                                <td>{{sensor.temperature}}</td>
+                                <td>{{sensor.humidity}}</td>
+                                <td>{{sensor.time}}</td>
+                                <td>{{sensor.age}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

@@ -2,11 +2,17 @@ var lightsApp = angular.module('lightsApp', ['ui.bootstrap','angular-loading-bar
 lightsApp.controller('DeviceListCtrl', function ($scope, $http) {
  $scope.loadData = function(){
    console.log("Load Called @"+ (new Date()));
-   $scope.status = "Loading data";
+   $scope.status = "Loading Device data";
    $http.get('tdaction.php?action=listDevices').success(function(data) {
      $scope.devices = data;
      $scope.status = "";
-     console.log("data fetched @"+ (new Date()))
+     console.log("Device data fetched @"+ (new Date()))
+   });
+   $scope.status = "Loading Sensor data";
+   $http.get('tdaction.php?action=listSensors').success(function(data) {
+     $scope.sensors = data;
+     $scope.status = "";
+     console.log("Sensor data fetched @"+ (new Date()))
    });
  };
 
