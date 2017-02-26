@@ -60,8 +60,7 @@
                     </table>
                     <!-- todo: turn off all button -->
                     <button type="button" class="btn btn-primary btn-danger" data-ng-click="allOff()">All OFF</button>
-                    <br>
-                    {{status}}
+                    <span class="">{{status}}</span>
                 </div>
                 <div>
 
