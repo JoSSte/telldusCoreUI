@@ -31,12 +31,20 @@ lightsApp.controller('DeviceListCtrl', function ($scope, $http) {
 });
 lightsApp.filter('percentage', ['$filter', function ($filter) {
   return function (input) {
-    return input + '%';
+    if(input > 0){
+      return input + '%';
+    }else {
+      return '';
+    }
   };
 }]);
 lightsApp.filter('degree', ['$filter', function ($filter) {
   return function (input) {
-    return input + '&deg;';
+    if(input > 0){
+      return input + '°';
+    }else {
+      return '';
+    }
   };
 }]);
 
