@@ -68,8 +68,8 @@
                     <table data-ng-table="sensorsTable" class="table table-striped">
                         <thead>
                             <tr>
-                                <th class="ng-hide">ID</th>
-                                <th>Type</th>
+                                <th>ID</th>
+                                <th class="ng-hide">Type</th>
                                 <th>Temperature</th>
                                 <th>Humidity</th>
                                 <th>Time</th>
