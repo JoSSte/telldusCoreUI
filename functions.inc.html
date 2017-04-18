@@ -1,0 +1,54 @@
+<div class="container" data-ng-app = "lightsApp" data-ng-controller="DeviceListCtrl" data-ng-init="loadData()">
+    <div class="starter-template">
+        <div>
+            <table data-ng-table="devicesTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="ng-hide">ID</th>
+                        <th>Name</th>
+                        <th>Last CMD</th>
+                        <th colspan="2" class="center">Commands</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="x in devices">
+                        <td class="ng-hide">{{x.id}}</td>
+                        <td>{{x.name}}</td>
+                        <td>{{x.lastcommand}}</td>
+                        <td><button class="btn btn-success" data-ng-click="tdaction(x.id,'on')">ON</button></td>
+                        <td><button class="btn btn-danger" data-ng-click="tdaction(x.id,'off')">OFF</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- todo: turn off all button -->
+            <button type="button" class="btn btn-primary btn-danger" data-ng-click="allOff()">All OFF</button>
+            <span class="">{{status}}</span>
+        </div>
+        <div>
+
+            <table data-ng-table="sensorsTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th class="ng-hide">Type</th>
+                        <th>Temperature</th>
+                        <th>Humidity</th>
+                        <th>Time</th>
+                        <th>Age</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="sensor in sensors">
+                        <td>{{sensor.id}}</td>
+                        <td class="ng-hide">{{sensor.type}}</td>
+                        <td>{{sensor.temperature | degree}}</td>
+                        <td>{{sensor.humidity | percentage}}</td>
+                        <td>{{sensor.time}}</td>
+                        <td>{{sensor.age}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+hhh
