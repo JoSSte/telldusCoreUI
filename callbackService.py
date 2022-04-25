@@ -6,6 +6,14 @@ import tellcore.telldus as td
 import tellcore.constants as const
 from datetime import date, datetime, timedelta
 from mysql.connector import errorcode
+from dotenv import load_dotenv
+
+load_dotenv()
+
+MYSQL_USER = os.getenv('MYSQL_USER')
+MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD')
+MYSQL_HOST = os.getenv('MYSQL_HOST')
+MYSQL_DB = os.getenv('MYSQL_DB')
 
 METHODS = {const.TELLSTICK_TURNON: 'turn on',
            const.TELLSTICK_TURNOFF: 'turn off',
@@ -22,11 +30,13 @@ METHODS = {const.TELLSTICK_TURNON: 'turn on',
 
 def sensor_event(protocol, model, id_, dataType, value, timestamp, cid):
   try:
-    cnx = mysql.connector.connect(user='tduser', password='cft67ygv',host='192.168.1.240',database='telldus')
+    # output of '..' means it went well
+    print('.', end='')
+    cnx = mysql.connector.connect(user=MYSQL_USER, password=MYSQL_PASSWORD,host=MYSQL_HOST,database=MYSQL_DB)
     cursor = cnx.cursor()
-    add_temperature = ("INSERT INTO sensorData (sensorid, timestamp, value, valuetype) values (%s,from_unixtime(%s),%s,%s)")
+    add_temperature = ("INSERT INTO sensorData (sensorid, timestamp, value, valuetype) values (%s,current_timestamp(),%s,%s)")
     data_temperature = (id_, timestamp, value, dataType)
-   
+
     #Insert temperature data
     cursor.execute(add_temperature, data_temperature)
     cnx.commit()
@@ -40,7 +50,8 @@ def sensor_event(protocol, model, id_, dataType, value, timestamp, cid):
   else:
     cursor.close()
     cnx.close()
-
+  # output of '..' means it went well
+  print('.')
 
 #Callback handler Button Event
 def device_event(id_, method, data, cid):
@@ -49,7 +60,6 @@ def device_event(id_, method, data, cid):
     if method == const.TELLSTICK_DIM:
         string += " [{0}]".format(data)
     print(string)
-
 
 #Callback handling
 try:
@@ -76,5 +86,6 @@ try:
         while True:
             core.callback_dispatcher.process_pending_callbacks()
             time.sleep(0.5)
+            print('-')
 except KeyboardInterrupt:
     pass

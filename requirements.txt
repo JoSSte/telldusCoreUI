@@ -1,3 +1,4 @@
 ###### Requirements - see https://pip.pypa.io/en/stable/reference/requirements-file-format/#requirements-file-format ######
 tellcore-py
 mysql-connector-python
+dotenv
