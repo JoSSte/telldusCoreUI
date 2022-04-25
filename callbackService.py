@@ -4,6 +4,7 @@
 import mysql.connector
 import tellcore.telldus as td
 import tellcore.constants as const
+import os
 from datetime import date, datetime, timedelta
 from mysql.connector import errorcode
 from dotenv import load_dotenv
@@ -35,7 +36,7 @@ def sensor_event(protocol, model, id_, dataType, value, timestamp, cid):
     cnx = mysql.connector.connect(user=MYSQL_USER, password=MYSQL_PASSWORD,host=MYSQL_HOST,database=MYSQL_DB)
     cursor = cnx.cursor()
     add_temperature = ("INSERT INTO sensorData (sensorid, timestamp, value, valuetype) values (%s,current_timestamp(),%s,%s)")
-    data_temperature = (id_, timestamp, value, dataType)
+    data_temperature = (id_,  value, dataType)
 
     #Insert temperature data
     cursor.execute(add_temperature, data_temperature)
