@@ -159,7 +159,7 @@ def device_event(id_, method, data, cid):
         string += " [{0}]".format(data)
     print(string)
 
-if DEBUG == False:
+if not DEBUG:
   # Callback handling
   try:
       import asyncio
