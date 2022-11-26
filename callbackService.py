@@ -15,6 +15,35 @@ MYSQL_USER = os.getenv('MYSQL_USER')
 MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD')
 MYSQL_HOST = os.getenv('MYSQL_HOST')
 MYSQL_DB = os.getenv('MYSQL_DB')
+SQLITE_DB = 'localcache.db'
+
+
+# initialize SQlite database for local cache
+conn = sqlite3.connect(SQLITE_DB)
+c = conn.cursor()
+
+c.execute("""
+CREATE TABLE IF NOT EXISTS sensorData (
+  sensorid int(11) DEFAULT NULL,
+  timestamp datetime DEFAULT NULL,
+  value float DEFAULT NULL,
+  valuetype TEXT CHECK( valuetype IN ('temperature','humidity') ) DEFAULT NULL
+)
+""")
+conn.close()
+
+def cache_data(protocol, model, id_, dataType, value, timestamp, cid):
+  conn = sqlite3.connect(SQLITE_DB)
+  c = conn.cursor()
+  print('caching. . . ', end='')
+  try:
+    c.execute("INSERT INTO sensorData (sensorid, timestamp, value, valuetype) values (?,?,?,?)", (id_, timestamp, value, dataType))
+    conn.commit()
+    print('cached. . .  ', end='')
+  except Error as e:
+    print("Error caching " + e)
+  else:
+    conn.close()
 
 METHODS = {const.TELLSTICK_TURNON: 'turn on',
            const.TELLSTICK_TURNOFF: 'turn off',
@@ -43,13 +72,14 @@ def sensor_event(protocol, model, id_, dataType, value, timestamp, cid):
     cnx.commit()
   except mysql.connector.Error as err:
     if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-      print("Something is wrong with your user name or password")
+      print("Something is wrong with your user name (%s) or password. Caching data for later. . . " % (MYSQL_USER), end='')
+      cache_data(protocol, model, id_, dataType, value, timestamp, cid)
     elif err.errno == errorcode.ER_BAD_DB_ERROR:
-      print("Database does not exist")
+      print("Database %s does not exist on host %s. Caching data for later. . . " % (MYSQL_DB, MYSQL_HOST), end='')
+      cache_data(protocol, model, id_, dataType, value, timestamp, cid)
     elif err.errno == errorcode.CR_CONN_HOST_ERROR:
-      print("Cannot connect to %s - potential network error. Caching data for later" % (MYSQL_HOST))
-    else:
-      print(err)
+      print("Connection Issue: %s - potential network error. Caching data for later. . . " % (err.msg), end='')
+      cache_data(protocol, model, id_, dataType, value, timestamp, cid)
   else:
     cursor.close()
     cnx.close()
