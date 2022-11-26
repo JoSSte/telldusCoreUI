@@ -2,3 +2,4 @@
 tellcore-py
 mysql-connector-python
 python-dotenv
+db-sqlite3
