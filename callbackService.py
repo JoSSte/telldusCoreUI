@@ -19,7 +19,6 @@ MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD')
 MYSQL_HOST = os.getenv('MYSQL_HOST')
 MYSQL_DB = os.getenv('MYSQL_DB')
 SQLITE_DB = 'localcache.db'
-DEBUG=os.getenv('DEBUG')
 
 
 # initialize SQlite database for local cache
@@ -62,8 +61,7 @@ def cache_data(protocol, model, id_, dataType, value, timestamp, cid):
   
 # called only if database is there
 def check_cache():
-  if DEBUG:
-    print("Checking if there are cached entries")
+  #print("Checking if there are cached entries")
   conn2 = sqlite3.connect(SQLITE_DB)
   cur2 = conn2.cursor()
   error_encountered = False
@@ -71,8 +69,7 @@ def check_cache():
     cur2.execute("SELECT sensorid, valuetype, value, timestamp FROM sensorData")
     rows = cur2.fetchall()
     conn2.close()
-    if DEBUG:
-      print("Found %d cached entries" % (len(rows)))
+    #print("Found %d cached entries" % (len(rows)))
     for row in rows:
       ret = sensor_event('', '', row[0], row[1], row[2], row[3], '', False)
       # abort if database goes away
@@ -159,32 +156,32 @@ def device_event(id_, method, data, cid):
         string += " [{0}]".format(data)
     print(string)
 
-if not DEBUG:
-  # Callback handling
-  try:
-      import asyncio
-      loop = asyncio.get_event_loop()
-      dispatcher = td.AsyncioCallbackDispatcher(loop)
-  except ImportError:
-      loop = None
-      dispatcher = td.QueuedCallbackDispatcher()
-  
-  core = td.TelldusCore(callback_dispatcher=dispatcher)
-  callbacks = []
-  
-  #register callback for sensor event
-  callbacks.append(core.register_sensor_event(sensor_event))
-  callbacks.append(core.register_device_event(device_event))
-  
-  #Handle events
-  try:
-      if loop:
-          loop.run_forever()
-      else:
-          import time
-          while True:
-              core.callback_dispatcher.process_pending_callbacks()
-              time.sleep(0.5)
-              print('-')
-  except KeyboardInterrupt:
-      pass
+
+# Callback handling
+try:
+  import asyncio
+  loop = asyncio.get_event_loop()
+  dispatcher = td.AsyncioCallbackDispatcher(loop)
+except ImportError:
+  loop = None
+  dispatcher = td.QueuedCallbackDispatcher()
+
+core = td.TelldusCore(callback_dispatcher=dispatcher)
+callbacks = []
+
+#register callback for sensor event
+callbacks.append(core.register_sensor_event(sensor_event))
+callbacks.append(core.register_device_event(device_event))
+
+#Handle events
+try:
+  if loop:
+    loop.run_forever()
+  else:
+    import time
+    while True:
+      core.callback_dispatcher.process_pending_callbacks()
+      time.sleep(0.5)
+      print('-')
+except KeyboardInterrupt:
+  pass
