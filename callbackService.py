@@ -62,22 +62,28 @@ def cache_data(protocol, model, id_, dataType, value, timestamp, cid):
   
 # called only if database is there
 def check_cache():
-  print("checking if there are cached entries")
+  if DEBUG:
+    print("Checking if there are cached entries")
   conn2 = sqlite3.connect(SQLITE_DB)
   cur2 = conn2.cursor()
+  error_encountered = False
   try:
     cur2.execute("SELECT sensorid, valuetype, value, timestamp FROM sensorData")
     rows = cur2.fetchall()
     conn2.close()
-    print("Found %d cached entries" % (len(rows)))
+    if DEBUG:
+      print("Found %d cached entries" % (len(rows)))
     for row in rows:
       ret = sensor_event('', '', row[0], row[1], row[2], row[3], '', False)
       # abort if database goes away
       if ret <0:
+        error_encountered = True
         break
       else:
         print("deleting entry %s %s %s %s " % (row[0], row[1], row[2], row[3]))
-        delete_cache_entry('', '', row[0], row[1], row[2], row[3], '')
+        #delete_cache_entry('', '', row[0], row[1], row[2], row[3], '')
+    if not error_encountered and len(rows) > 0:
+      delete_cache_entries()
   except Error as e:
     print("Error handling cache %s" % (' '.join(e.args)))
   else:
@@ -94,6 +100,18 @@ def delete_cache_entry(protocol, model, id_, dataType, value, timestamp, cid):
   else:
     conn3.close()
     print("deleted")
+
+def delete_cache_entries():
+  conn3 = sqlite3.connect(SQLITE_DB)
+  cur3 = conn3.cursor()
+  try:
+    cur3.execute("DELETE FROM sensorData")
+    conn3.commit()
+  except Error as e:
+    print("Error deleting cache entries:  %s" % (' '.join(e.args)))
+  else:
+    conn3.close()
+    print("Cache cleared")
 
 # Callback handler Sensor Event
 def sensor_event(protocol, model, id_, dataType, value, timestamp, cid, cache_enable=True):
