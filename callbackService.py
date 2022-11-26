@@ -46,6 +46,8 @@ def sensor_event(protocol, model, id_, dataType, value, timestamp, cid):
       print("Something is wrong with your user name or password")
     elif err.errno == errorcode.ER_BAD_DB_ERROR:
       print("Database does not exist")
+    elif err.errno == errorcode.CR_CONN_HOST_ERROR:
+      print("Cannot connect to %s - potential network error. Caching data for later" % (MYSQL_HOST))
     else:
       print(err)
   else:
