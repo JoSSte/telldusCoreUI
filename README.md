@@ -1,5 +1,5 @@
 # telldusCoreUI
-PHP frontent to Telldus tdtool utility  
+PHP frontent to Telldus tdtool utility with Python based backend, since there is no PHP API. if database connection is lost, a local sqlite database is populated.
 
 ## Running
 Ensure that `telldusd` service is running. (Verify with `tdtool --list`)  
